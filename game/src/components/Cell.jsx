@@ -13,7 +13,6 @@ const Cell = ({
       return;
     }
     revealCell(pos);
-    console.log(cell);
     if (cell.value === "M") {
       window.alert("U LOST");
       return location.reload();

@@ -118,6 +118,7 @@ const App = () => {
       revealed: true,
     };
 
+    checkForWin(updatedField);
     setField(updatedField);
   };
 
@@ -140,6 +141,21 @@ const App = () => {
       } else {
         cell.revealed = true;
       }
+    }
+  };
+
+  const checkForWin = tempField => {
+    const win = 71;
+    let revealed = 0;
+    tempField.map(row => {
+      row.map(cell => {
+        if (cell.revealed && cell.value !== "M") revealed = revealed + 1;
+      });
+    });
+    console.log(revealed);
+    if (revealed === win) {
+      window.alert("wonned the gamed");
+      return location.reload();
     }
   };
 
