@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Display from "./components/Display";
+import VictoryScreen from "./components/VictoryScreen";
 
 const App = () => {
   const [field, setField] = useState([
@@ -13,6 +14,30 @@ const App = () => {
     ["X", "X", "X", "X", "X", "X", "X", "X", "X"],
     ["X", "X", "X", "X", "X", "X", "X", "X", "X"],
   ]);
+  const [time, setTime] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
+  const intervalRef = useRef(null);
+
+  const startTimer = () => {
+    if (intervalRef.current) return;
+    intervalRef.current = setInterval(() => {
+      setTime(s => s + 1);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if ((gameOver && intervalRef.current) || (gameWon && intervalRef.current)) {
+      clearInterval(intervalRef.current);
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, [gameOver, gameWon]);
 
   const generateMines = pos => {
     let mineCount = 10;
@@ -152,11 +177,24 @@ const App = () => {
         if (cell.revealed && cell.value !== "M") revealed = revealed + 1;
       });
     });
-    console.log(revealed);
-    if (revealed === win) {
-      window.alert("wonned the gamed");
-      return location.reload();
+    if (revealed === win && !gameOver) {
+      revealEveryCell(tempField);
+      setGameWon(true);
     }
+  };
+
+  const revealEveryCell = optField => {
+    let tempField;
+
+    if (!optField) {
+      tempField = JSON.parse(JSON.stringify(field));
+    } else {
+      tempField = optField;
+    }
+    tempField.map(row => {
+      row.map(cell => (cell.revealed = true));
+    });
+    setField(tempField);
   };
 
   return (
@@ -165,7 +203,14 @@ const App = () => {
         generateMines={generateMines}
         field={field}
         revealCell={revealCell}
+        gameOver={gameOver}
+        setGameOver={setGameOver}
+        time={time}
+        startTimer={startTimer}
+        revealEveryCell={revealEveryCell}
+        gameWon={gameWon}
       />
+      <VictoryScreen time={time} gameWon={gameWon} />
     </>
   );
 };

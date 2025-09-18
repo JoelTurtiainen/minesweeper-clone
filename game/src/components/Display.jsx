@@ -1,7 +1,19 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Cell from "./Cell";
+import Timer from "./Timer";
+import DefeatScreen from "./DefeatScreen";
 
-const Display = ({ generateMines, field, revealCell }) => {
+const Display = ({
+  generateMines,
+  field,
+  revealCell,
+  gameOver,
+  setGameOver,
+  time,
+  startTimer,
+  revealEveryCell,
+  gameWon,
+}) => {
   const [initialClick, setInitialClick] = useState(true);
 
   const determineColor = cell => {
@@ -18,7 +30,7 @@ const Display = ({ generateMines, field, revealCell }) => {
         case 4:
           return "purple";
         case 5:
-          return "yellow";
+          return "orange";
         case 6:
           return "cyan";
         case 7:
@@ -36,24 +48,41 @@ const Display = ({ generateMines, field, revealCell }) => {
     verticalAlign: "top",
   };
 
+  const container = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 40,
+  };
+
   return (
     <>
-      {field.map((row, rIndex) => (
-        <div style={style} key={rIndex}>
-          {row.map((cell, cIndex) => (
-            <Cell
-              key={cIndex}
-              generateMines={generateMines}
-              color={determineColor(cell)}
-              cell={cell}
-              initialClick={initialClick}
-              setInitialClick={setInitialClick}
-              revealCell={revealCell}
-              pos={[rIndex, cIndex]}
-            />
-          ))}
-        </div>
-      ))}
+      <div>
+        <Timer time={time} />
+      </div>
+      <div style={container}>
+        {field.map((row, rIndex) => (
+          <div style={style} key={rIndex}>
+            {row.map((cell, cIndex) => (
+              <Cell
+                key={cIndex}
+                generateMines={generateMines}
+                color={determineColor(cell)}
+                cell={cell}
+                initialClick={initialClick}
+                setInitialClick={setInitialClick}
+                revealCell={revealCell}
+                pos={[rIndex, cIndex]}
+                startTimer={startTimer}
+                setGameOver={setGameOver}
+                revealEveryCell={revealEveryCell}
+                gameWon={gameWon}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+      <DefeatScreen gameOver={gameOver} />
     </>
   );
 };
