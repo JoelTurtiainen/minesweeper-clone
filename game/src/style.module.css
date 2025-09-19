@@ -1,0 +1,36 @@
+.grayCellStyle {
+  height: 15px;
+  width: 10px;
+  display: inline-block;
+  vertical-align: top;
+  background-color: green;
+}
+
+.mineImgStyle {
+  height: 15px;
+  width: 10px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.display {
+  height: 25px;
+  width: 25px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.timer {
+  display: flex;
+  align-Items: center;
+  justify-content: center;
+  padding-top: 20px;
+  gap: 5px;
+}

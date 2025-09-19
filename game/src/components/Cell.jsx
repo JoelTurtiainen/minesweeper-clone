@@ -1,5 +1,6 @@
 import minePNG from "./images/rg1024_sea_mine.svg";
 import grayCell from "./images/B6B4B2_1200x.png";
+import styles from '../style.module.css'
 
 const Cell = ({
   generateMines,
@@ -32,21 +33,6 @@ const Cell = ({
     startTimer();
   };
 
-  const mineImgStyle = {
-    height: "15px",
-    width: "10px",
-    display: "inline-block",
-    verticalAlign: "top",
-  };
-
-  const grayCellStyle = {
-    height: "15px",
-    width: "10px",
-    display: "inline-block",
-    verticalAlign: "top",
-    backgroundColor: "green",
-  };
-
   return (
     <>
       <button
@@ -57,11 +43,11 @@ const Cell = ({
         onClick={() => handleClick()}
       >
         {!cell.revealed ? (
-          <img style={grayCellStyle} src={grayCell} />
+          <img className={styles.grayCellStyle} src={grayCell} />
         ) : cell.value !== "M" ? (
           cell.value
         ) : (
-          <img style={mineImgStyle} src={minePNG} />
+          <img className={styles.mineImgStyle} src={minePNG} />
         )}
       </button>
     </>

@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import Cell from "./Cell";
 import Timer from "./Timer";
 import DefeatScreen from "./DefeatScreen";
+import styles from '../style.module.css'
+
 
 const Display = ({
   generateMines,
@@ -41,28 +43,14 @@ const Display = ({
     }
   };
 
-  const style = {
-    height: "25px",
-    width: "25px",
-    display: "inline-block",
-    verticalAlign: "top",
-  };
-
-  const container = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 40,
-  };
-
   return (
     <>
       <div>
         <Timer time={time} />
       </div>
-      <div style={container}>
+      <div className={styles.container}>
         {field.map((row, rIndex) => (
-          <div style={style} key={rIndex}>
+          <div className={styles.display} key={rIndex}>
             {row.map((cell, cIndex) => (
               <Cell
                 key={cIndex}
